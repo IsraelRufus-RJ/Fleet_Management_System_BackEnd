@@ -1,8 +1,11 @@
 package com.ramjo.fleet_management.controller;
 
 import com.ramjo.fleet_management.dto.DriverDTO;
+import com.ramjo.fleet_management.dto.VehicleResponse;
 import com.ramjo.fleet_management.entity.Driver;
 import com.ramjo.fleet_management.entity.Vehicle;
+import com.ramjo.fleet_management.mapper.DriverMapper;
+import com.ramjo.fleet_management.mapper.VehicleMapper;
 import com.ramjo.fleet_management.repository.DriverRepository;
 import com.ramjo.fleet_management.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +23,21 @@ public class FleetController {
     VehicleRepository vr;
     @Autowired
     DriverRepository dr;
+    @Autowired
+    DriverMapper dm;
+    @Autowired
+    VehicleMapper vm;
 
     @GetMapping("vehicle")
-    public List<Vehicle> getVehicle(){
-        return vr.findAll();
+    public List<VehicleResponse> getVehicle(){
+        return vm.toDtoList(vr.findAll());
     }
 
     @GetMapping("driver")
     public List<DriverDTO> getDriver(){
         List<Driver> ld  = dr.findAll();
-        return ld.stream().map((e) -> {DriverDTO ddto = new DriverDTO(); ddto.setName(e.getName()); ddto.setPhoneNumber(e.getPhoneNumber()); ddto.setLicenseNumber(e.getLicenseNumber()); return ddto;}).collect(Collectors.toList());
-
+        return dm.toDriverDTOList(ld);
     }
 
 }
+
