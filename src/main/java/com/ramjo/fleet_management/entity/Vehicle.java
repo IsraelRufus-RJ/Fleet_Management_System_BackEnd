@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Table(name="vehicles")
 public class Vehicle {
     @Id
