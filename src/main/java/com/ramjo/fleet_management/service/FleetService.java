@@ -9,10 +9,11 @@ import com.ramjo.fleet_management.mapper.DriverMapper;
 import com.ramjo.fleet_management.mapper.VehicleMapper;
 import com.ramjo.fleet_management.repository.DriverRepository;
 import com.ramjo.fleet_management.repository.VehicleRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,6 +45,13 @@ public class FleetService {
         return vehicleMapper.toDto(vehicleRepository.save(vehicle));
     }
 
+    @Transactional(readOnly=true)
+    public List<VehicleResponse> getAllVehicles() {
+        return vehicleMapper.toDtoList(vehicleRepository.findAll());
+    }
 
-
+    @Transactional(readOnly = true)
+    public List<DriverDTO> getAllDrivers() {
+       return driverMapper.toDriverDTOList(driverRepository.findAll());
+    }
 }
